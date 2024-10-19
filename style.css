@@ -1,5 +1,29 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
+  outline: 2px solid red;
+
+  .container-screen1 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+  display: block;
+  max-width: 310px;
+  flex: 1;
+}
+
+  body {
+    background-color: black;
+  }
+
+  h1 {
+    color:rgb(255, 255, 255);
+    flex: 1;
+  } 
+
+
 }
 
