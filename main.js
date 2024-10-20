@@ -1,37 +1,65 @@
+class SplashScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'SplashScene' });
+    }
+
+    preload() {
+        this.load.image('logo', './images/logo_sundrop.png');
+    }
+
+    create() {
+        // First splash screen 
+        this.cameras.main.setBackgroundColor('#000000'); 
+        let logo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 50, 'logo');
+        let title = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Sundrop Entertainment', { 
+            fontSize: '32px', color: '#FFFFFF' 
+        }).setOrigin(0.5);
+
+        // Show first splash for 1 second, then show the second splash screen
+        this.time.delayedCall(1000, () => {
+            this.showSecondSplashScreen();
+        });
+    }
+
+    showSecondSplashScreen() {
+        // Clear previous splash elements
+        this.cameras.main.setBackgroundColor('#FFFFFF'); 
+        this.children.removeAll();
+
+        // Second splash screen content
+        let startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Click to Start!', { 
+            fontSize: '32px', color: '#000000' 
+        }).setOrigin(0.5);
+
+        // Wait for user input to start the game
+        this.input.on('pointerdown', () => {
+            this.scene.start('GameScene'); // Transition to the main game scene
+        });
+    }
+}
+
+class GameScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'GameScene' });
+    }
+
+    preload() {
+    }
+
+    create() {
+        this.add.text(100, 100, 'Game', { fontSize: '32px', color: '#ffffff' });
+    }
+
+    update() {
+    }
+}
+
 const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    },
-    parent: 'splash-container',
+    scene: [SplashScene, GameScene], 
+    parent: 'phaser-container',
 };
 
 const game = new Phaser.Game(config);
-
-function preload() {
-    // Load assets here, e.g., this.load.image('key', 'path/to/image.png');
-}
-
-function create() {
-    document.querySelector('canvas').style.display='none'; //Hide canvas while the splash screens are being shown
-    showSplashScreen1();
-    this.time.delayedCall(1000, showSplashScreen2, [], this);
-}
-
-function update() {
-    // Game logic here if needed
-}
-
-function showSplashScreen1() {
-    document.getElementById('splash1').style.display = 'flex';
-    document.getElementById('splash2').style.display = 'none';
-}
-
-function showSplashScreen2() {
-    document.getElementById('splash1').style.display = 'none';
-    document.getElementById('splash2').style.display = 'flex';
-}
