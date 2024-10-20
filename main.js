@@ -5,6 +5,7 @@ class SplashScene extends Phaser.Scene {
 
     preload() {
         this.load.image('logo', './images/logo_sundrop.png');
+        this.load.image('start_screen', './images/homescreen4.png');
     }
 
     create() {
@@ -50,8 +51,11 @@ class GameScene extends Phaser.Scene {
 
     preload() {
     }
-
+    
     create() {
+        this.add.image(0, 0, 'start_screen')
+        .setOrigin(0)
+        .setDisplaySize(this.cameras.main.width, this.cameras.main.height)
         this.add.text(100, 100, 'Game', { fontSize: '32px', color: '#ffffff' });
     }
 
