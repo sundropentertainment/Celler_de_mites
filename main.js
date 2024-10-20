@@ -96,23 +96,39 @@ class SplashScene extends Phaser.Scene {
     
         create(data) {
             const name = data.name;
-    
+            
+            this.cameras.main.setBackgroundColor('#FFFFFF');
+
             this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 50, `Your name: ${name}`, { 
-                fontSize: '32px', color: '#000000' 
+                fontSize: '32px', color: 'red' 
             }).setOrigin(0.5);
     
-            const confirmText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 50, 'Is this correct? Click to Continue', { 
-                fontSize: '32px', color: '#000000' 
+            const confirmText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 50, 'És correcte?', { 
+                fontSize: '32px', color: 'red' 
             }).setOrigin(0.5);
     
-            // Wait for user confirmation
-            this.input.on('pointerdown', () => {
-                // Proceed to the game scene
-                this.scene.start('GameScene', { name: name });
-            });
-        }
+           // Create "Yes" button
+           const yesButton = this.add.text(this.cameras.main.centerX - 50, this.cameras.main.centerY + 100, 'Yes', { 
+            fontSize: '32px', color: 'green' 
+        }).setOrigin(0.5).setInteractive();
+
+        // Create "No" button
+        const noButton = this.add.text(this.cameras.main.centerX + 50, this.cameras.main.centerY + 100, 'No', { 
+            fontSize: '32px', color: 'red' 
+        }).setOrigin(0.5).setInteractive();
+
+        // Yes button click event
+        yesButton.on('pointerdown', () => {
+            this.scene.start('GameScene', { name: name });
+        });
+
+        // No button click event
+        noButton.on('pointerdown', () => {
+            this.scene.start('NameInputScene');
+        });
     }
-    
+}
+
     class GameScene extends Phaser.Scene {
         constructor() {
             super({ key: 'GameScene' });

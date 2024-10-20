@@ -6,10 +6,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000; /* Set a default background if needed */
+  background-color: #000;
 }
 
-/* Center the Phaser canvas in the page */
+
 #phaser-container {
   display: flex;
   justify-content: center;
