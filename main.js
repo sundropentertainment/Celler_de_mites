@@ -51,35 +51,43 @@ class SplashScene extends Phaser.Scene {
         }
     
         create() {
-            // Create a text input field
-            const inputElement = document.createElement('input');
-            inputElement.style.position = 'absolute';
-            inputElement.style.left = `${this.cameras.main.centerX}px`;
-            inputElement.style.top = `${this.cameras.main.centerY}px`;
-            inputElement.style.transform = 'translate(-50%, -50%)';
-            inputElement.style.fontSize = '32px';
-            inputElement.style.color = '#000000';
-            inputElement.style.backgroundColor = '#ffffff';
-            inputElement.style.border = '2px solid #000000';
-            inputElement.style.borderRadius = '5px';
-            inputElement.placeholder = 'Enter your name';
-            document.body.appendChild(inputElement);
-            inputElement.focus();
-    
-            // Add a confirmation button
-            const confirmButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 50, 'Confirm', { 
-                fontSize: '32px', color: 'red' 
-            }).setOrigin(0.5).setInteractive();
-    
-            confirmButton.on('pointerdown', () => {
-                const name = inputElement.value;
-                document.body.removeChild(inputElement); // Remove input element
-    
-                // Transition to the confirmation scene
-                this.scene.start('ConfirmationScene', { name: name });
-            });
-        }
+          // Set background color
+        this.cameras.main.setBackgroundColor('#FFFFFF');
+
+        // Add the prompt text
+        this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 50, "Com et dius?", { 
+            fontSize: '32px', color: '#000000' 
+        }).setOrigin(0.5);
+
+        // Create a text input field
+        const inputElement = document.createElement('input');
+        inputElement.style.position = 'absolute';
+        inputElement.style.left = '50%'; // Center horizontally
+        inputElement.style.top = `${this.cameras.main.centerY}px`; // Position above the button
+        inputElement.style.transform = 'translate(-50%, -100%)'; // Center it above the accept button
+        inputElement.style.fontSize = '32px';
+        inputElement.style.color = '#000000';
+        inputElement.style.backgroundColor = '#ffffff';
+        inputElement.style.border = '2px solid #000000';
+        inputElement.style.borderRadius = '5px';
+        inputElement.placeholder = 'Enter your name';
+        document.body.appendChild(inputElement);
+        inputElement.focus();
+
+        // Add an accept button
+        const acceptButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 50, 'Accept', { 
+            fontSize: '32px', color: 'red' 
+        }).setOrigin(0.5).setInteractive();
+
+        acceptButton.on('pointerdown', () => {
+            const name = inputElement.value;
+            document.body.removeChild(inputElement); // Remove input element
+
+            // Transition to the confirmation scene
+            this.scene.start('ConfirmationScene', { name: name });
+        });
     }
+}
     
     class ConfirmationScene extends Phaser.Scene {
         constructor() {
