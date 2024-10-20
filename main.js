@@ -55,15 +55,15 @@ class SplashScene extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#FFFFFF');
 
         // Add the prompt text
-        this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 50, "Com et dius?", { 
+       const promptText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 200, "Com et dius?", { 
             fontSize: '32px', color: '#000000' 
         }).setOrigin(0.5);
 
         // Create a text input field
         const inputElement = document.createElement('input');
-        inputElement.style.position = 'absolute';
+        inputElement.style.position = 'fixed';
         inputElement.style.left = '50%'; // Center horizontally
-        inputElement.style.top = `${this.cameras.main.centerY}px`; // Position above the button
+        inputElement.style.top = '50%'; // Position above the button
         inputElement.style.transform = 'translate(-50%, -100%)'; // Center it above the accept button
         inputElement.style.fontSize = '32px';
         inputElement.style.color = '#000000';
@@ -74,8 +74,15 @@ class SplashScene extends Phaser.Scene {
         document.body.appendChild(inputElement);
         inputElement.focus();
 
+        const adjustPositions = () => {
+            const inputHeight = inputElement.offsetHeight;
+            promptText.setPosition(this.cameras.main.centerX, this.cameras.main.centerY - (inputHeight + 20)); // 20 pixels gap
+        };
+
+        window.addEventListener('resize', adjustPositions);
+
         // Add an accept button
-        const acceptButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 50, 'Accept', { 
+        const acceptButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Accept', { 
             fontSize: '32px', color: 'red' 
         }).setOrigin(0.5).setInteractive();
 
