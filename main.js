@@ -10,13 +10,18 @@ class SplashScene extends Phaser.Scene {
     create() {
         // First splash screen 
         this.cameras.main.setBackgroundColor('#000000'); 
-        let logo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 50, 'logo');
-        let title = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Sundrop Entertainment', { 
+        
+        const logoWidth = this.cameras.main.width * 0.5;
+        const logoHeight = this.cameras.main.height * 0.8; 
+
+        let logo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 50, 'logo')
+        .setDisplaySize(400, 300);
+        let title = this.add.text(this.cameras.main.centerX, logo.y + logo.displayHeight / 2 + 20, 'Sundrop Entertainment', {
             fontSize: '32px', color: '#FFFFFF' 
         }).setOrigin(0.5);
 
         // Show first splash for 1 second, then show the second splash screen
-        this.time.delayedCall(1000, () => {
+        this.time.delayedCall(2000, () => {
             this.showSecondSplashScreen();
         });
     }
