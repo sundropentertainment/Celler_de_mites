@@ -17,6 +17,3 @@ const config = {
             // Game logic here
         }
     }
-};
-
-const game = new Phaser.Game(config);
