@@ -3,7 +3,15 @@
 
   outline: 2px solid red;
 
-  .container-screen1 {
+
+  body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .splash-content {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -11,17 +19,13 @@
 
 .logo {
   display: block;
-  max-width: 310px;
-  flex: 1;
+  max-width: 300%;
+  margin-bottom: 20px;
 }
-
-  body {
-    background-color: black;
-  }
 
   h1 {
     color:rgb(255, 255, 255);
-    flex: 1;
+    text-align: center;
   } 
 
 
