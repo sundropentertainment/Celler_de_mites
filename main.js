@@ -12,13 +12,23 @@ class SplashScene extends Phaser.Scene {
         // First splash screen 
         this.cameras.main.setBackgroundColor('#000000'); 
         
-        const logoWidth = this.cameras.main.width * 0.5;
-        const logoHeight = this.cameras.main.height * 0.8; 
+        const maxlogoWidth = this.cameras.main.width * 0.5;
+        const maxlogoHeight = this.cameras.main.height * 0.8; 
 
-        let logo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 50, 'logo')
+        const logo = this.textures.get('logo');
+        const aspectRatio = logo.getSourceImage().width / logo.getSourceImage().height;
+
+        let logoImage = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 50, 'logo')
         .setDisplaySize(400, 300);
-        let title = this.add.text(this.cameras.main.centerX, logo.y + logo.displayHeight / 2 + 20, 'Sundrop Entertainment', {
-            fontSize: '32px', color: '#FFFFFF' 
+        const baseFontSize =50; 
+        const scalingFactor = Math.min(this.cameras.main.width / 1920, 1);
+        const responsiveFontSize = baseFontSize * scalingFactor;
+
+        let titleY = logoImage.y + logoImage.displayHeight / 2 + 20; // 20 pixels below the logo
+
+        let title = this.add.text(this.cameras.main.centerX, titleY, 'Sundrop Entertainment', {
+            fontSize: `${responsiveFontSize}px`, 
+            color: '#FFFFFF'
         }).setOrigin(0.5);
 
         // Show first splash for 1 second, then show the second splash screen
@@ -163,10 +173,18 @@ class SplashScene extends Phaser.Scene {
     
     const config = {
         type: Phaser.AUTO,
-        width: 1920,
-        height: 1080,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        dom: {
+            createContainer: true
+        },
+        scale:{
+            mode: Phaser.Scale.RESIZE,
+            autoCenter: Phaser.Scale.CENTER_BOTH
+        },
+        parent: "phaser-container",
         scene: [SplashScene, NameInputScene, ConfirmationScene, GameScene], 
-        parent: 'phaser-container',
     };
     
     const game = new Phaser.Game(config);
+    
