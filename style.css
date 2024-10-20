@@ -6,7 +6,6 @@
 
 
   html, body {
-    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,6 +21,10 @@
   display: block;
   max-width: 300%;
   margin-bottom: 20px;
+}
+
+.splash1 {
+  background-color: black;
 }
 
   h1 {

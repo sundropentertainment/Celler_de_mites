@@ -6,7 +6,8 @@ const config = {
         preload: preload,
         create: create,
         update: update
-    }
+    },
+    parent: 'splash-container',
 };
 
 const game = new Phaser.Game(config);
@@ -16,8 +17,9 @@ function preload() {
 }
 
 function create() {
+    document.querySelector('canvas').style.display='none'; //Hide canvas while the splash screens are being shown
     showSplashScreen1();
-    this.time.delayedCall(5000, showSplashScreen2, [], this);
+    this.time.delayedCall(1000, showSplashScreen2, [], this);
 }
 
 function update() {
