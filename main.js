@@ -173,13 +173,13 @@ class SplashScene extends Phaser.Scene {
     
     const config = {
         type: Phaser.AUTO,
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: 1600,
+        height: 900,
         dom: {
             createContainer: true
         },
         scale:{
-            mode: Phaser.Scale.RESIZE,
+            mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH
         },
         parent: "phaser-container",
