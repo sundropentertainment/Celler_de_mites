@@ -66,7 +66,7 @@ class SplashScene extends Phaser.Scene {
 
         // Add the prompt text
        const promptText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 200, "Com et dius?", { 
-            fontSize: '32px', color: '#000000' 
+            fontSize: '32px', color: '#000000'
         }).setOrigin(0.5);
 
         // Create a text input field
