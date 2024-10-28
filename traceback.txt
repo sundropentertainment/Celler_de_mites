@@ -1,52 +1,67 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "renpy/common/00action_menu.rpy", line 117, in __call__
-    raise Exception("%r is not a screen or a label." % orig_screen)
-Exception: 'about' is not a screen or a label.
+  File "renpy/common/00start.rpy", line 211, in script call
+    call _gl_test
+  File "renpy/common/00gltest.rpy", line 390, in script
+    $ __gl_test()
+  File "renpy/common/00start.rpy", line 211, in script call
+    call _gl_test
+  File "renpy/common/00gltest.rpy", line 390, in script
+    $ __gl_test()
+  File "renpy/common/00gltest.rpy", line 390, in <module>
+    $ __gl_test()
+  File "renpy/common/00gltest.rpy", line 319, in _m1_00gltest__gl_test
+    _gl_performance_test()
+  File "renpy/common/00gltest.rpy", line 342, in _gl_performance_test
+    ui.interact(suppress_underlay=True, suppress_overlay=True)
+OSError: Couldn't find file 'gui/window_icon.png'.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "renpy/common/_layout/screen_main_menu.rpym", line 28, in script
-    python hide:
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\ast.py", line 821, in execute
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\bootstrap.py", line 359, in bootstrap
+    renpy.main.main()
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\main.py", line 652, in main
+    run(restart)
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\main.py", line 148, in run
+    renpy.execution.run_context(True)
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\execution.py", line 958, in run_context
+    context.run()
+  File "renpy/common/00start.rpy", line 211, in script call
+    call _gl_test
+  File "renpy/common/00gltest.rpy", line 390, in script
+    $ __gl_test()
+  File "lib/python3.9/future/utils/__init__.py", line 444, in raise_
+  File "renpy/common/00start.rpy", line 211, in script call
+    call _gl_test
+  File "renpy/common/00gltest.rpy", line 390, in script
+    $ __gl_test()
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\ast.py", line 821, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\python.py", line 1178, in py_exec_bytecode
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\python.py", line 1178, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "renpy/common/_layout/screen_main_menu.rpym", line 28, in <module>
-    python hide:
-  File "renpy/common/_layout/screen_main_menu.rpym", line 35, in _execute_python_hide
-    ui.interact()
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\ui.py", line 301, in interact
+  File "renpy/common/00gltest.rpy", line 390, in <module>
+    $ __gl_test()
+  File "renpy/common/00gltest.rpy", line 319, in _m1_00gltest__gl_test
+    _gl_performance_test()
+  File "renpy/common/00gltest.rpy", line 342, in _gl_performance_test
+    ui.interact(suppress_underlay=True, suppress_overlay=True)
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\ui.py", line 301, in interact
     rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\core.py", line 2215, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\core.py", line 3278, in interact_core
-    rv = root_widget.event(ev, x, y, 0)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\layout.py", line 1294, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\layout.py", line 1294, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\layout.py", line 1294, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\screen.py", line 793, in event
-    rv = self.child.event(ev, x, y, st)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\layout.py", line 1294, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\layout.py", line 1294, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\behavior.py", line 1180, in event
-    return handle_click(self.clicked)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\behavior.py", line 1101, in handle_click
-    rv = run(action)
-  File "C:\Users\catef\Desktop\Potis\renpy-8.3.2-sdk\renpy\display\behavior.py", line 401, in run
-    return action(*args, **kwargs)
-  File "renpy/common/00action_menu.rpy", line 117, in __call__
-    raise Exception("%r is not a screen or a label." % orig_screen)
-Exception: 'about' is not a screen or a label.
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\display\core.py", line 2172, in interact
+    self.start()
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\display\core.py", line 1010, in start
+    self.post_init()
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\display\core.py", line 1107, in post_init
+    self.set_icon()
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\display\core.py", line 1151, in set_icon
+    with renpy.loader.load(icon, directory="images") as f:
+  File "C:\Users\Leonela\Downloads\renpy-8.3.2-sdk\renpy\loader.py", line 673, in load
+    raise IOError("Couldn't find file '%s'." % name)
+OSError: Couldn't find file 'gui/window_icon.png'.
 
-Windows-10-10.0.19041 AMD64
+Windows-10-10.0.19045 AMD64
 Ren'Py 8.3.2.24090902
 Celler_de_mites 1.0
-Mon Oct 28 20:07:59 2024
+Mon Oct 28 23:57:30 2024
