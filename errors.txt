@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/screens.rpy", line 553: use statement expects a non-empty block.
+    use game_menu(_("Extras"), scroll="viewport"):
+                                                  ^
+
+Ren'Py Version: Ren'Py 8.3.2.24090902
+Mon Oct 28 20:15:52 2024

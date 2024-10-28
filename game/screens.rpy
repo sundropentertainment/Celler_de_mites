@@ -249,14 +249,14 @@ screen quick_menu():
             xalign 0.5
             yalign 1.0
 
-            textbutton _("Atrás") action Rollback()
+            textbutton _("Enrere") action Rollback()
             textbutton _("Historial") action ShowMenu('history')
             textbutton _("Saltar") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Guardar") action ShowMenu('save')
-            textbutton _("Guardar R.") action QuickSave()
-            textbutton _("Cargar R.") action QuickLoad()
-            textbutton _("Prefs.") action ShowMenu('preferences')
+            textbutton _("Guardat R.") action QuickSave()
+            textbutton _("Càrrega R.") action QuickLoad()
+            textbutton _("Opcions") action ShowMenu('preferences')
 
 
 ## Este código asegura que la pantalla 'quick_menu' se muestra en el juego,
@@ -297,7 +297,7 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("Comenzar") action Start()
+            textbutton _("Jugar") action Start()
 
         else:
 
@@ -305,9 +305,9 @@ screen navigation():
 
             textbutton _("Guardar") action ShowMenu("save")
 
-        textbutton _("Cargar") action ShowMenu("load")
+        textbutton _("Carregar") action ShowMenu("load")
 
-        textbutton _("Opciones") action ShowMenu("preferences")
+        textbutton _("Opcions") action ShowMenu("preferences")
 
         if _in_replay:
 
@@ -317,18 +317,18 @@ screen navigation():
 
             textbutton _("Menú principal") action MainMenu()
 
-        textbutton _("Acerca de") action ShowMenu("about")
+        textbutton _("Extras") action ShowMenu("about")
 
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## La ayuda no es necesaria ni relevante en dispositivos móviles.
-            textbutton _("Ayuda") action ShowMenu("help")
+            textbutton _("Ajuda") action ShowMenu("help")
 
         if renpy.variant("pc"):
 
             ## El botón de salida está prohibido en iOS y no es necesario en
             ## Android y Web.
-            textbutton _("Salir") action Quit(confirm=not main_menu)
+            textbutton _("Sortir") action Quit(confirm=not main_menu)
 
 
 style navigation_button is gui_button
@@ -472,7 +472,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     use navigation
 
-    textbutton _("Volver"):
+    textbutton _("Enrere"):
         style "return_button"
 
         action Return()
@@ -550,38 +550,14 @@ screen about():
     ## Esta sentencia 'use' incluye la pantalla 'game_menu' dentro de esta. El
     ## elemento 'vbox' se incluye entonces dentro del 'viewport' al interno de
     ## la pantalla 'game_menu'.
-    use game_menu(_("Acerca de"), scroll="viewport"):
-
+    use game_menu(_("Extras"), scroll="viewport"):
+        
         style_prefix "about"
 
         vbox:
 
             label "[config.name!t]"
-            text _("Versión [config.version!t]\n")
-
-            ## 'gui.about' se ajusta habitualmente en 'options.rpy'.
-            if gui.about:
-                text "[gui.about!t]\n"
-
-            text _("Hecho con {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
-
-
-style about_label is gui_label
-style about_label_text is gui_label_text
-style about_text is gui_text
-
-style about_label_text:
-    size gui.label_text_size
-
-
-## Pantallas de carga y grabación ##############################################
-##
-## Estas pantallas permiten al jugador grabar el juego y cargarlo de nuevo. Como
-## comparten casi todos los elementos, ambas están implementadas en una tercera
-## pantalla: 'file_slots'.
-##
-## https://www.renpy.org/doc/html/screen_special.html#save https://
-## www.renpy.org/doc/html/screen_special.html#load
+            text _("Versió [config.version!t]\n")
 
 screen save():
 
@@ -594,7 +570,7 @@ screen load():
 
     tag menu
 
-    use file_slots(_("Cargar"))
+    use file_slots(_("Carregar"))
 
 
 screen file_slots(title):
@@ -732,7 +708,7 @@ screen preferences():
 
     tag menu
 
-    use game_menu(_("Opciones"), scroll="viewport"):
+    use game_menu(_("Opcions"), scroll="viewport"):
 
         vbox:
 
@@ -744,15 +720,15 @@ screen preferences():
                     vbox:
                         style_prefix "radio"
                         label _("Pantalla")
-                        textbutton _("Ventana") action Preference("display", "window")
+                        textbutton _("Finestra") action Preference("display", "window")
                         textbutton _("Pantalla completa") action Preference("display", "fullscreen")
 
                 vbox:
                     style_prefix "check"
                     label _("Saltar")
-                    textbutton _("Texto no visto") action Preference("skip", "toggle")
-                    textbutton _("Tras elecciones") action Preference("after choices", "toggle")
-                    textbutton _("Transiciones") action InvertSelected(Preference("transitions", "toggle"))
+                    textbutton _("Text no vist") action Preference("skip", "toggle")
+                    textbutton _("Posteleccions") action Preference("after choices", "toggle")
+                    textbutton _("Transicions") action InvertSelected(Preference("transitions", "toggle"))
 
                 ## Aquí se pueden añadir 'vboxes' adicionales del tipo
                 ## "radio_pref" o "check_pref" para nuevas preferencias.
@@ -765,25 +741,25 @@ screen preferences():
 
                 vbox:
 
-                    label _("Veloc. texto")
+                    label _("Velocitat text")
 
                     bar value Preference("text speed")
 
-                    label _("Veloc. autoavance")
+                    label _("Velocitat avanç automàtic")
 
                     bar value Preference("auto-forward time")
 
                 vbox:
 
                     if config.has_music:
-                        label _("Volumen música")
+                        label _("Volum música")
 
                         hbox:
                             bar value Preference("music volume")
 
                     if config.has_sound:
 
-                        label _("Volumen sonido")
+                        label _("Volum so")
 
                         hbox:
                             bar value Preference("sound volume")
@@ -793,7 +769,7 @@ screen preferences():
 
 
                     if config.has_voice:
-                        label _("Volumen voz")
+                        label _("Volum veu")
 
                         hbox:
                             bar value Preference("voice volume")
@@ -804,7 +780,7 @@ screen preferences():
                     if config.has_music or config.has_sound or config.has_voice:
                         null height gui.pref_spacing
 
-                        textbutton _("Silenciar todo"):
+                        textbutton _("Silenciar tot"):
                             action Preference("all mute", "toggle")
                             style "mute_all_button"
 
@@ -982,7 +958,7 @@ screen help():
 
     default device = "keyboard"
 
-    use game_menu(_("Ayuda"), scroll="viewport"):
+    use game_menu(_("Ajuda"), scroll="viewport"):
 
         style_prefix "help"
 
@@ -991,11 +967,11 @@ screen help():
 
             hbox:
 
-                textbutton _("Teclado") action SetScreenVariable("device", "keyboard")
-                textbutton _("Ratón") action SetScreenVariable("device", "mouse")
+                textbutton _("Teclat") action SetScreenVariable("device", "keyboard")
+                textbutton _("Ratolí") action SetScreenVariable("device", "mouse")
 
                 if GamepadExists():
-                    textbutton _("Mando") action SetScreenVariable("device", "gamepad")
+                    textbutton _("Controlador") action SetScreenVariable("device", "gamepad")
 
             if device == "keyboard":
                 use keyboard_help
@@ -1006,42 +982,41 @@ screen help():
 
 
 screen keyboard_help():
+    hbox:
+        label _("Inici")
+        text _("Avança el diàleg i activa la interfície.")
 
     hbox:
-        label _("Intro")
-        text _("Avanza el diálogo y activa la interfaz.")
+        label _("Espai")
+        text _("Avança el diàleg sense seleccionar opcions.")
 
     hbox:
-        label _("Espacio")
-        text _("Avanza el diálogo sin seleccionar opciones.")
+        label _("Fletxes")
+        text _("Navega la interfície.")
 
     hbox:
-        label _("Teclas de flecha")
-        text _("Navega la interfaz.")
-
-    hbox:
-        label _("Escape")
-        text _("Accede al menú del juego.")
+        label _("Esc")
+        text _("Accedeix al menú del joc.")
 
     hbox:
         label _("Ctrl")
-        text _("Salta el diálogo mientras se presiona.")
+        text _("Salta el diàleg mentre es manté premut.")
 
     hbox:
         label _("Tabulador")
-        text _("Activa/desactiva el salto de diálogo.")
+        text _("Activa/desactiva el salt de diàleg.")
 
     hbox:
-        label _("Av. pág.")
-        text _("Retrocede al diálogo anterior.")
+        label _("Av. pàg.")
+        text _("Retrocedeix al diàleg anterior.")
 
     hbox:
-        label _("Re. pág.")
-        text _("Avanza hacia el diálogo siguiente.")
+        label _("Re. pàg.")
+        text _("Avança cap al diàleg següent.")
 
     hbox:
         label "H"
-        text _("Oculta la interfaz.")
+        text _("Amaga la interfície.")
 
     hbox:
         label "S"
@@ -1049,61 +1024,61 @@ screen keyboard_help():
 
     hbox:
         label "V"
-        text _("Activa/desactiva la asistencia por {a=https://www.renpy.org/l/voicing}voz-automática{/a}.")
+        text _("Activa/desactiva l'assistència per {a=https://www.renpy.org/l/voicing}veu automàtica{/a}.")
 
     hbox:
         label "Shift+A"
-        text _("Abre el menú de accesibilidad.")
+        text _("Obre el menú d'accessibilitat.")
 
 
 screen mouse_help():
 
     hbox:
-        label _("Clic izquierdo")
-        text _("Avanza el diálogo y activa la interfaz.")
+        label _("Clic esquerre")
+        text _("Avança el diàleg i activa la interfície.")
 
     hbox:
-        label _("Clic medio")
-        text _("Oculta la interfaz.")
+        label _("Clic central")
+        text _("Amaga la interfície.")
 
     hbox:
-        label _("Clic derecho")
-        text _("Accede al menú del juego.")
+        label _("Clic dret")
+        text _("Accedeix al menú del joc.")
 
     hbox:
-        label _("Rueda del ratón arriba")
-        text _("Retrocede al diálogo anterior.")
+        label _("Roda ratolí amunt")
+        text _("Retrocedeix al diàleg anterior.")
 
     hbox:
-        label _("Rueda del ratón abajo")
-        text _("Avanza hacia el diálogo siguiente.")
+        label _("Roda ratolí avall")
+        text _("Avança cap al diàleg següent.")
 
 
 screen gamepad_help():
 
     hbox:
-        label _("Gatillo derecho\nA/Botón inferior")
-        text _("Avanza el diálogo y activa la interfaz.")
+        label _("Gatell dret\nA/Botó inferior")
+        text _("Avança el diàleg i activa la interfície.")
 
     hbox:
-        label _("Gatillo izquierdo\nBotón sup. frontal izq.")
-        text _("Retrocede al diálogo anterior.")
+        label _("Gatell esquerre\nBotó superior frontal esquerre")
+        text _("Retrocedeix al diàleg anterior.")
 
     hbox:
-        label _("Botón sup. frontal der.")
-        text _("Avanza hacia el diálogo siguiente.")
+        label _("Botó superior frontal dret")
+        text _("Avança cap al diàleg següent.")
 
     hbox:
-        label _("D-Pad, Sticks")
-        text _("Navega la interfaz.")
+        label _("D-Pad, Joysticks")
+        text _("Navega la interfície.")
 
     hbox:
-        label _("Inicio, Guía, B/Botón Derecho")
-        text _("Accede al menú del juego.")
+        label _("Inici, Guia, B/Botó dret")
+        text _("Accedeix al menú del joc.")
 
     hbox:
-        label _("Y/Botón superior")
-        text _("Oculta la interfaz.")
+        label _("Y/Botó superior")
+        text _("Amaga la interfície.")
 
     textbutton _("Calibrar") action GamepadCalibrate()
 
