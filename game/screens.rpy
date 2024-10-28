@@ -363,16 +363,16 @@ screen main_menu():
     ## real del menú principal está en la pantalla de navegación.
     use navigation
 
-    if gui.show_name:
+    #if gui.show_name:
 
-        vbox:
-            style "main_menu_vbox"
+        #vbox:
+            #style "main_menu_vbox"
 
-            text "[config.name!t]":
-                style "main_menu_title"
+            #text "[config.name!t]":
+                #style "main_menu_title"
 
-            text "[config.version]":
-                style "main_menu_version"
+            #text "[config.version]":
+                #style "main_menu_version"
 
 
 style main_menu_frame is empty
