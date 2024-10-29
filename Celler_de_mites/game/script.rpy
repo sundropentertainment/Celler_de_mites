@@ -25,7 +25,8 @@ label start:
 
 "Quan vinguin clients els farem la beguda que ens demanin. Pot ser que ens diguin alguna informació sobre ells"
 
-renpy.random.choice(['ti', 'el', 'se', 'pe', 'la', 'al', 'jo', 'bl'])
+
+
 
     pause
 
