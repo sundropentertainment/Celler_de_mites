@@ -1,0 +1,38 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 31: if statement expects a non-empty block.
+    if randchar = 'ti':
+                       ^
+
+File "game/script.rpy", line 34: if statement expects a non-empty block.
+    if randchar = 'el':
+                       ^
+
+File "game/script.rpy", line 37: if statement expects a non-empty block.
+    if randchar = 'se':
+                       ^
+
+File "game/script.rpy", line 40: if statement expects a non-empty block.
+    if randchar = 'pe':
+                       ^
+
+File "game/script.rpy", line 43: if statement expects a non-empty block.
+    if randchar = 'la':
+                       ^
+
+File "game/script.rpy", line 46: if statement expects a non-empty block.
+    if randchar = 'al':
+                       ^
+
+File "game/script.rpy", line 49: if statement expects a non-empty block.
+    if randchar = 'jo':
+                       ^
+
+File "game/script.rpy", line 52: if statement expects a non-empty block.
+    if randchar = 'bl':
+                       ^
+
+Ren'Py Version: Ren'Py 8.3.2.24090902
+Tue Oct 29 22:27:15 2024

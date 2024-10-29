@@ -21,44 +21,65 @@ label start:
     show screen potion_display
     show screen drink_overlay
 
-"I obrim el bar!"
+    "I obrim el bar!"
 
-"Quan vinguin clients els farem la beguda que ens demanin. Pot ser que ens diguin alguna informació sobre ells"
-
-
+    "Quan vinguin clients els farem la beguda que ens demanin. Pot ser que ens diguin alguna informació sobre ells"
 
 
-    pause
+    $ randchar = renpy.random.choice(['ti', 'el', 'se', 'pe', 'la', 'al', 'jo', 'bl'])
+
+    if randchar = 'ti':
+        jump ti
+
+    if randchar = 'el':
+        jump el
+
+    if randchar = 'se':
+        jump se
+
+    if randchar = 'pe':
+        jump pe
+
+    if randchar = 'la':
+        jump la
+
+    if randchar = 'al':
+        jump al
+
+    if randchar = 'jo':
+        jump jo
+
+    if randchar = 'bl':
+        jump bl
+
 
 
 label ti:
-
-    pause
+    "Hola"
+ 
 
 label el:
 
-    pause
 
 label se:
 
-    pause
+
 
 label pe:
 
-    pause
+
 
 label la:
 
-    pause
+
 
 label al:
 
-    pause
+
 
 label jo:
 
-    pause
+
 
 label bl:
 
-    pause
