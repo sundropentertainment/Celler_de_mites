@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 553: use statement expects a non-empty block.
-    use game_menu(_("Extras"), scroll="viewport"):
-                                                  ^
+File "game/script.rpy", line 17: expected ':' not found.
+    label start
+               ^
 
 Ren'Py Version: Ren'Py 8.3.2.24090902
-Mon Oct 28 20:15:52 2024
+Tue Oct 29 14:42:33 2024
