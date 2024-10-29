@@ -64,4 +64,4 @@ OSError: Couldn't find file 'gui/window_icon.png'.
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.3.2.24090902
 Celler_de_mites 1.0
-Mon Oct 28 23:57:30 2024
+Mon Oct 28 23:59:35 2024
