@@ -95,277 +95,10 @@ style frame:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
-
-
-define potion1 = "potion1_idle.png"
-define potion2 = "potion2_idle.png"
-define potion3 = "potion3_idle.png"
-define potion4 = "potion4_idle.png"
-define potion5 = "potion5_idle.png"
-define ing1 = "ing1_idle.png"
-define ing2 = "ing2_idle.png"
-define ing3 = "ing3_idle.png"
-define ing4 = "ing4_idle.png"
-define ing5 = "ing5_idle.png"
-define ing6 = "ing6_idle.png"
-
-define drink1 = "drink_1.png"
-define drink2 = "drink_2.png"
-define drink3 = "drink_3.png"
-define drink4 = "drink_4.png"
-define drink5 = "drink_5.png"
-define drink6 = "drink_6.png"
-define drink7 = "drink_7.png"
-define drink8 = "drink_8.png"
-define nodrink = "nodrink.png"
-
-default final_drink = None
-
-default potioncrafting_visible = False
-
-default current_display = None
-default potion_slot = None  # For the first position (potions only)
-default second_slot = None  # For the second position (potions or ingredients)
-default ingredient_slot = None  # For the third position (ingredients only)
-default show_new_image = False
-
-
-init python:
-    def store_item(item):
-        global potion_slot, second_slot, ingredient_slot
-
-
-        if item in ["potion1", "potion2", "potion3", "potion4", "potion5"]:
-            if not potion_slot:
-                potion_slot = item
-            else:
-                if not second_slot:
-                    second_slot = item
-
-        elif item in ["ing1", "ing2", "ing3", "ing4", "ing5", "ing6"]:
-            if not potion_slot and not second_slot:
-                second_slot = item
-            elif potion_slot and not second_slot:
-                second_slot = item
-            elif not ingredient_slot:
-                ingredient_slot = item
-    def get_final_drink():
-        global final_drink, drink_result_visible, show_new_image 
-        combination = {potion_slot, second_slot, ingredient_slot}
-
-        if combination == {"potion2", "ing2", "ing6"}:
-            final_drink = drink1
-            show_new_image = final_drink
-        elif combination == {"potion5", "ing5", "ing4"}:
-            final_drink = drink2
-            show_new_image = final_drink
-        elif combination == {"potion1", "ing2", "ing6"}:
-            final_drink = drink3
-            show_new_image = final_drink
-        elif combination == {"potion4", "ing5", "ing6"}:
-            final_drink = drink4
-            show_new_image = final_drink
-        elif combination == {"potion3", "ing3", "ing1"}:
-            final_drink = drink5
-            show_new_image = final_drink
-        elif combination == {"potion1", "ing1", "ing2"}:
-            final_drink = drink6
-            show_new_image = final_drink
-        elif combination == {"potion4", "ing3", "ing1"}:
-            final_drink = drink7
-            show_new_image = final_drink
-        elif combination == {"potion5", "ing3", "ing4"}:
-            final_drink = drink8
-            show_new_image = final_drink
-        else:
-            final_drink = nodrink 
-            
-            show_new_image = final_drink is not None
-    
-    def reset_slots():
-        global potion_slot, second_slot, ingredient_slot, show_new_image, final_drink
-        potion_slot = None
-        second_slot = None
-        ingredient_slot = None
-        final_drink = None  # Clear final drink
-        show_new_image = False  # Reset the display state
-
-
-
-# Main screen for game start
-screen tavern():
-    image "fondo_tavern.png"
-    modal True
-    
-    imagebutton: #craftbutton that brings potioncraft
-        pos (1619, 960)
-        anchor (0.5, 0.5)
-        auto "craft_%s.png"
-        focus_mask True
-        action SetVariable("potioncrafting_visible", True)
-
-# Screen for the potion crafting section
-screen potioncrafting():
-
-    if potioncrafting_visible:
-        image "potioncraft_bg.png"
-
-        imagebutton: #go back
-            pos (437, 1005)
-            anchor (0.5, 0.5)
-            auto "back_%s.png"
-            focus_mask True
-            action [SetVariable("potioncrafting_visible", False), Function(reset_slots)]
-
-        imagebutton: # Potion 1 Resina d’alsina mil·lenària
-            pos (1048, 90)
-            anchor (0.5, 0.5)
-            auto "potion1_%s.png"  
-            focus_mask True
-            tooltip "Potion 1"
-            action [SetVariable("current_display", "potion1"), Function(store_item, "potion1")]
-
-        imagebutton: # Potion 2 Essència de fènix
-            pos (1244, 96)
-            anchor (0.5, 0.5)
-            auto "potion2_%s.png"
-            focus_mask True
-            tooltip "Potion 2"
-            action [SetVariable("current_display", "potion2"), Function(store_item, "potion2")]
-
-        imagebutton: # Potion 3 Aigua de deu lunar:
-            pos (1286, 255)
-            anchor (0.5, 0.5)
-            auto "potion3_%s.png"
-            focus_mask True
-            tooltip "Potion 3"
-            action [SetVariable("current_display", "potion3"), Function(store_item, "potion3")]
-
-        imagebutton: # Potion 4 Oli d'anguila del buit
-            pos (1430, 239)
-            anchor (0.5, 0.5)
-            auto "potion4_%s.png"
-            focus_mask True
-            tooltip "Potion 4"
-            action [SetVariable("current_display", "potion4"), Function(store_item, "potion4")]
-
-        imagebutton: # Potion 5 Sang de Seiryu
-            pos (1604, 250)
-            anchor (0.5, 0.5)
-            auto "potion5_%s.png"
-            focus_mask True
-            tooltip "Potion 5"
-            action [SetVariable("current_display", "potion5"), Function(store_item, "potion5")]
-
-        imagebutton: # Ingredient 1 Ratafia
-            pos (1008, 371)
-            anchor (0.5, 0.5)
-            auto "ing1_%s.png"
-            focus_mask True
-            tooltip "Ing 1"
-            action [SetVariable("current_display", "ing1"), Function(store_item, "ing1")]
-
-        imagebutton: # Ingredient 2 Mel de fada
-            pos (1125, 368)
-            anchor (0.5, 0.5)
-            auto "ing2_%s.png"
-            focus_mask True
-            tooltip "Ing 2"
-            action [SetVariable("current_display", "ing2"), Function(store_item, "ing2")]
-
-        imagebutton: # Ingredient 3 Llàgrimes de sirena 
-            pos (1240, 396)
-            anchor (0.5, 0.5)
-            auto "ing3_%s.png"
-            focus_mask True
-            tooltip "Ing 3"
-            action [SetVariable("current_display", "ing3"), Function(store_item, "ing3")]
-
-        imagebutton: # Ingredient 4 Essència de Gorgona
-            pos (1372, 395)
-            anchor (0.5, 0.5)
-            auto "ing4_%s.png"
-            focus_mask True
-            tooltip "Ing 4"
-            action [SetVariable("current_display", "ing4"), Function(store_item, "ing4")]
-
-        imagebutton: # Ingredient 5 Ulls de granota
-            pos (1503, 395)
-            anchor (0.5, 0.5)
-            auto "ing5_%s.png"
-            focus_mask True
-            tooltip "Ing 5"
-            action [SetVariable("current_display", "ing5"), Function(store_item, "ing5")]
-
-        imagebutton: # Ingredient 6 Nectar de les Serps Màgiques
-            pos (1625, 395)
-            anchor (0.5, 0.5)
-            auto "ing6_%s.png"
-            focus_mask True
-            tooltip "Ing 6"
-            action [SetVariable("current_display", "ing6"), Function(store_item, "ing6")]
-
-        if potion_slot and second_slot and ingredient_slot and final_drink is None:
-            imagebutton:
-                pos (1268, 985)
-                anchor (0.5, 0.5)
-                auto "mix_%s.png"  # Mix button
-                action [Function(get_final_drink), Show("drink_result")]
-
-
-
-
-
-screen potion_display():
-    if potion_slot:
-        add globals()[potion_slot] pos (1048, 596) anchor (0.5, 0.5)
-
-
-    if second_slot:
-        add globals()[second_slot] pos (1286, 596) anchor (0.5, 0.5)
-
-
-    if ingredient_slot:
-        add globals()[ingredient_slot] pos (1524, 596) anchor (0.5, 0.5)
-
-screen drink_overlay():
-    if show_new_image:
-        add "drink_bg.png" pos (1319, 539) anchor (0.5, 0.5)
-
-
-screen drink_result():
-    modal True
-    if final_drink:
-        add final_drink pos (1319, 539) anchor (0.5, 0.5)
-
-        # Add the repetir button
-        imagebutton:
-            pos (1264, 985)  
-            anchor (0.5, 0.5)
-            auto "repetir_%s.png"  
-            action [Function(reset_slots), Hide("drink_result")]
-
-
-screen say(who, what):
-    style_prefix "say"
-
-    window:
-        id "window"
-
-        if who is not None:
-
-            window:
-                id "namebox"
-                style "namebox"
-                text who id "who"
-
-        text what id "what"
-
-
-    ## Si hay una imagen lateral, la muestra encima del texto. No la muestra en
-    ## la variante de teléfono - no hay lugar.
-    if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
+## Si hay una imagen lateral, la muestra encima del texto. No la muestra en
+## la variante de teléfono - no hay lugar.
+#if not renpy.variant("small"):
+    #add SideImage() xalign 0.0 yalign 1.0
 
 
 ## Permite que el 'namebox' pueda ser estilizado en el objeto 'Character'.
@@ -548,7 +281,7 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("Jugar") action Start()
+            textbutton _("Jugar") action Start("start")
 
         else:
 
@@ -591,7 +324,6 @@ style navigation_button:
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
-
 
 ## Pantalla del menú principal #################################################
 ##
@@ -653,6 +385,270 @@ style main_menu_title:
 style main_menu_version:
     properties gui.text_properties("version")
 
+define potion1 = "potion1_idle.png"
+define potion2 = "potion2_idle.png"
+define potion3 = "potion3_idle.png"
+define potion4 = "potion4_idle.png"
+define potion5 = "potion5_idle.png"
+define ing1 = "ing1_idle.png"
+define ing2 = "ing2_idle.png"
+define ing3 = "ing3_idle.png"
+define ing4 = "ing4_idle.png"
+define ing5 = "ing5_idle.png"
+define ing6 = "ing6_idle.png"
+
+define drink1 = "drink_1.png"
+define drink2 = "drink_2.png"
+define drink3 = "drink_3.png"
+define drink4 = "drink_4.png"
+define drink5 = "drink_5.png"
+define drink6 = "drink_6.png"
+define drink7 = "drink_7.png"
+define drink8 = "drink_8.png"
+define nodrink = "nodrink.png"
+
+default final_drink = None
+
+default potioncrafting_visible = False
+
+default current_display = None
+default potion_slot = None  # For the first position (potions only)
+default second_slot = None  # For the second position (potions or ingredients)
+default ingredient_slot = None  # For the third position (ingredients only)
+default show_new_image = False
+
+
+init python:
+    def store_item(item):
+        global potion_slot, second_slot, ingredient_slot
+
+
+        if item in ["potion1", "potion2", "potion3", "potion4", "potion5"]:
+            if not potion_slot:
+                potion_slot = item
+            else:
+                if not second_slot:
+                    second_slot = item
+
+        elif item in ["ing1", "ing2", "ing3", "ing4", "ing5", "ing6"]:
+            if not potion_slot and not second_slot:
+                second_slot = item
+            elif potion_slot and not second_slot:
+                second_slot = item
+            elif not ingredient_slot:
+                ingredient_slot = item
+    def get_final_drink():
+        global final_drink, drink_result_visible, show_new_image 
+        combination = {potion_slot, second_slot, ingredient_slot}
+
+        if combination == {"potion2", "ing2", "ing6"}:
+            final_drink = drink1
+            show_new_image = final_drink
+        elif combination == {"potion5", "ing5", "ing4"}:
+            final_drink = drink2
+            show_new_image = final_drink
+        elif combination == {"potion1", "ing2", "ing6"}:
+            final_drink = drink3
+            show_new_image = final_drink
+        elif combination == {"potion4", "ing5", "ing6"}:
+            final_drink = drink4
+            show_new_image = final_drink
+        elif combination == {"potion3", "ing3", "ing1"}:
+            final_drink = drink5
+            show_new_image = final_drink
+        elif combination == {"potion1", "ing1", "ing2"}:
+            final_drink = drink6
+            show_new_image = final_drink
+        elif combination == {"potion4", "ing3", "ing1"}:
+            final_drink = drink7
+            show_new_image = final_drink
+        elif combination == {"potion5", "ing3", "ing4"}:
+            final_drink = drink8
+            show_new_image = final_drink
+        else:
+            final_drink = nodrink 
+            
+            show_new_image = final_drink is not None
+    
+    def reset_slots():
+        global potion_slot, second_slot, ingredient_slot, show_new_image, final_drink
+        potion_slot = None
+        second_slot = None
+        ingredient_slot = None
+        final_drink = None  # Clear final drink
+        show_new_image = False  # Reset the display state
+
+screen jugar():
+    image "fondo_tavern.png"
+
+# Main screen for game start
+screen tavern():
+    image "fondo_tavern.png"
+    modal True
+    
+    imagebutton: #craftbutton that brings potioncraft
+        pos (1619, 960)
+        anchor (0.5, 0.5)
+        auto "craft_%s.png"
+        focus_mask True
+        action SetVariable("potioncrafting_visible", True)
+
+# Screen for the potion crafting section
+screen potioncrafting():
+
+    if potioncrafting_visible:
+        image "potioncraft_bg.png"
+
+        imagebutton: #go back
+            pos (437, 1005)
+            anchor (0.5, 0.5)
+            auto "back_%s.png"
+            focus_mask True
+            action [SetVariable("potioncrafting_visible", False), Function(reset_slots)]
+
+        imagebutton: # Potion 1 Resina d’alsina mil·lenària
+            pos (1048, 90)
+            anchor (0.5, 0.5)
+            auto "potion1_%s.png"  
+            focus_mask True
+            tooltip "Potion 1"
+            action [SetVariable("current_display", "potion1"), Function(store_item, "potion1")]
+
+        imagebutton: # Potion 2 Essència de fènix
+            pos (1244, 96)
+            anchor (0.5, 0.5)
+            auto "potion2_%s.png"
+            focus_mask True
+            tooltip "Potion 2"
+            action [SetVariable("current_display", "potion2"), Function(store_item, "potion2")]
+
+        imagebutton: # Potion 3 Aigua de deu lunar:
+            pos (1286, 255)
+            anchor (0.5, 0.5)
+            auto "potion3_%s.png"
+            focus_mask True
+            tooltip "Potion 3"
+            action [SetVariable("current_display", "potion3"), Function(store_item, "potion3")]
+
+        imagebutton: # Potion 4 Oli d'anguila del buit
+            pos (1430, 239)
+            anchor (0.5, 0.5)
+            auto "potion4_%s.png"
+            focus_mask True
+            tooltip "Potion 4"
+            action [SetVariable("current_display", "potion4"), Function(store_item, "potion4")]
+
+        imagebutton: # Potion 5 Sang de Seiryu
+            pos (1604, 250)
+            anchor (0.5, 0.5)
+            auto "potion5_%s.png"
+            focus_mask True
+            tooltip "Potion 5"
+            action [SetVariable("current_display", "potion5"), Function(store_item, "potion5")]
+
+        imagebutton: # Ingredient 1 Ratafia
+            pos (1008, 371)
+            anchor (0.5, 0.5)
+            auto "ing1_%s.png"
+            focus_mask True
+            tooltip "Ing 1"
+            action [SetVariable("current_display", "ing1"), Function(store_item, "ing1")]
+
+        imagebutton: # Ingredient 2 Mel de fada
+            pos (1125, 368)
+            anchor (0.5, 0.5)
+            auto "ing2_%s.png"
+            focus_mask True
+            tooltip "Ing 2"
+            action [SetVariable("current_display", "ing2"), Function(store_item, "ing2")]
+
+        imagebutton: # Ingredient 3 Llàgrimes de sirena 
+            pos (1240, 396)
+            anchor (0.5, 0.5)
+            auto "ing3_%s.png"
+            focus_mask True
+            tooltip "Ing 3"
+            action [SetVariable("current_display", "ing3"), Function(store_item, "ing3")]
+
+        imagebutton: # Ingredient 4 Essència de Gorgona
+            pos (1372, 395)
+            anchor (0.5, 0.5)
+            auto "ing4_%s.png"
+            focus_mask True
+            tooltip "Ing 4"
+            action [SetVariable("current_display", "ing4"), Function(store_item, "ing4")]
+
+        imagebutton: # Ingredient 5 Ulls de granota
+            pos (1503, 395)
+            anchor (0.5, 0.5)
+            auto "ing5_%s.png"
+            focus_mask True
+            tooltip "Ing 5"
+            action [SetVariable("current_display", "ing5"), Function(store_item, "ing5")]
+
+        imagebutton: # Ingredient 6 Nectar de les Serps Màgiques
+            pos (1625, 395)
+            anchor (0.5, 0.5)
+            auto "ing6_%s.png"
+            focus_mask True
+            tooltip "Ing 6"
+            action [SetVariable("current_display", "ing6"), Function(store_item, "ing6")]
+
+        if potion_slot and second_slot and ingredient_slot and final_drink is None:
+            imagebutton:
+                pos (1268, 985)
+                anchor (0.5, 0.5)
+                auto "mix_%s.png"  # Mix button
+                action [Function(get_final_drink), Show("drink_result")]
+
+
+
+
+
+screen potion_display():
+    if potion_slot:
+        add globals()[potion_slot] pos (1048, 596) anchor (0.5, 0.5)
+
+
+    if second_slot:
+        add globals()[second_slot] pos (1286, 596) anchor (0.5, 0.5)
+
+
+    if ingredient_slot:
+        add globals()[ingredient_slot] pos (1524, 596) anchor (0.5, 0.5)
+
+screen drink_overlay():
+    if show_new_image:
+        add "drink_bg.png" pos (1319, 539) anchor (0.5, 0.5)
+
+
+screen drink_result():
+    modal True
+    if final_drink:
+        add final_drink pos (1319, 539) anchor (0.5, 0.5)
+
+        # Add the repetir button
+        imagebutton:
+            pos (1264, 985)  
+            anchor (0.5, 0.5)
+            auto "repetir_%s.png"  
+            action [Function(reset_slots), Hide("drink_result")]
+
+
+screen say(who, what):
+    style_prefix "say"
+
+    window:
+        id "window"
+
+        if who is not None:
+
+            window:
+                id "namebox"
+                style "namebox"
+                text who id "who"
+
+        text what id "what"
 
 ## Pantalla del menú del juego #################################################
 ##

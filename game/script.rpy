@@ -19,4 +19,4 @@ label start:
     show screen potioncrafting
     show screen potion_display
     show screen drink_overlay
-    return
+    pause
