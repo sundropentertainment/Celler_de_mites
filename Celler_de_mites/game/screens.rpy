@@ -4,6 +4,10 @@
 
 init offset = -1
 
+# options.rpy
+# Uncomment if you want to define key mappings
+init python:
+    config.keymap['next'] = ['K_SPACE', 'K_RIGHT']
 
 ################################################################################
 ## Estilos
@@ -140,7 +144,7 @@ style say_label:
 style say_dialogue:
     properties gui.text_properties("dialogue")
 
-    xpos gui.dialogue_xpos
+    xpos 200
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
 
@@ -397,6 +401,22 @@ define ing4 = "ing4_idle.png"
 define ing5 = "ing5_idle.png"
 define ing6 = "ing6_idle.png"
 
+define potion1tooltip = "potion1tooltip.png"
+define potion2tooltip = "potion2tooltip.png"
+define potion3tooltip = "potion3tooltip.png"
+define potion4tooltip = "potion4tooltip.png"
+define potion5tooltip = "potion5tooltip.png"
+define potion6tooltip = "potion6tooltip.png"
+
+define ing1tooltip = "ing1tooltip.png"
+define ing2tooltip = "ing2tooltip.png"
+define ing3tooltip = "ing3tooltip.png"
+define ing4tooltip = "ing4tooltip.png"
+define ing5tooltip = "ingpotion5tooltip.png"
+define ing6tooltip = "ing6tooltip.png"
+
+
+
 define drink1 = "drink_1.png"
 define drink2 = "drink_2.png"
 define drink3 = "drink_3.png"
@@ -406,6 +426,18 @@ define drink6 = "drink_6.png"
 define drink7 = "drink_7.png"
 define drink8 = "drink_8.png"
 define nodrink = "nodrink.png"
+
+define desired_drinks = {
+    'titus': drink3,    # Example: Titus wants drink3
+    'el·lòdia': drink1, # El·lòdia wants drink1
+    'segre': drink5,    # Segre wants drink5
+    'peris': drink2,    # Peris wants drink2
+    'laia': drink4,     # Laia wants drink4
+    'alma': drink6,     # Alma wants drink6
+    'jordi': drink7,    # Jordi wants drink7
+    'blanca': drink8    # Blanca wants drink8
+}
+
 
 default final_drink = None
 
@@ -417,6 +449,7 @@ default second_slot = None  # For the second position (potions or ingredients)
 default ingredient_slot = None  # For the third position (ingredients only)
 default show_new_image = False
 
+default selected_potion = None
 
 init python:
     def store_item(item):
@@ -478,26 +511,44 @@ init python:
         final_drink = None  # Clear final drink
         show_new_image = False  # Reset the display state
 
-screen jugar():
-    image "fondo_tavern.png"
+
+image tavern = "fondo_tavern.png"
+screen custom_textbox():
+    add "gui/textbox.png" 
+
+screen tooltip_frame():
+    if current_tooltip_image:
+        frame:
+            xalign 0.5
+            yalign 0.5
+            has vbox
+            add current_tooltip_image
+
 
 # Main screen for game start
-screen tavern():
-    image "fondo_tavern.png"
-    modal True
-    
-    imagebutton: #craftbutton that brings potioncraft
-        pos (1619, 960)
+screen craft_button():
+    imagebutton:  # Craft button to access potion crafting
+        pos (1117, 666)
         anchor (0.5, 0.5)
-        auto "craft_%s.png"
+        auto "images/craft_%s.png"
         focus_mask True
-        action SetVariable("potioncrafting_visible", True)
+        action [
+            SetVariable("potioncrafting_visible", True),  # Set the visibility variable
+            Hide("craft_button"),  # Hide the craft button
+            Hide("textbox"),  # Hide the text box
+            Hide("dialogue"),  # Hide the dialogue (if defined as a separate screen)
+            Show("potioncrafting")  # Show potion crafting screen
+        ]
+default current_tooltip_image = None  # Default value for tooltip image
 
 # Screen for the potion crafting section
 screen potioncrafting():
-
+    zorder -10
     if potioncrafting_visible:
         image "potioncraft_bg.png"
+
+        #show screen tooltip_display()
+
 
         imagebutton: #go back
             pos (437, 1005)
@@ -506,52 +557,60 @@ screen potioncrafting():
             focus_mask True
             action [SetVariable("potioncrafting_visible", False), Function(reset_slots)]
 
-        imagebutton: # Potion 1 Resina d’alsina mil·lenària
+        imagebutton: #Potion 1
             pos (1048, 90)
             anchor (0.5, 0.5)
             auto "potion1_%s.png"  
             focus_mask True
-            tooltip "Potion 1"
-            action [SetVariable("current_display", "potion1"), Function(store_item, "potion1")]
+            hovered SetVariable("current_tooltip_image", "potion1tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
+            action Function(store_item, "potion1")
+
+
 
         imagebutton: # Potion 2 Essència de fènix
             pos (1244, 96)
             anchor (0.5, 0.5)
             auto "potion2_%s.png"
             focus_mask True
-            tooltip "Potion 2"
-            action [SetVariable("current_display", "potion2"), Function(store_item, "potion2")]
+            hovered SetVariable("current_tooltip_image", "potion2tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
+            action Function(store_item, "potion2")
 
         imagebutton: # Potion 3 Aigua de deu lunar:
             pos (1286, 255)
             anchor (0.5, 0.5)
             auto "potion3_%s.png"
             focus_mask True
-            tooltip "Potion 3"
-            action [SetVariable("current_display", "potion3"), Function(store_item, "potion3")]
+            hovered SetVariable("current_tooltip_image", "potion3tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
+            action Function(store_item, "potion3")
 
         imagebutton: # Potion 4 Oli d'anguila del buit
             pos (1430, 239)
             anchor (0.5, 0.5)
             auto "potion4_%s.png"
             focus_mask True
-            tooltip "Potion 4"
-            action [SetVariable("current_display", "potion4"), Function(store_item, "potion4")]
+            hovered SetVariable("current_tooltip_image", "potion4tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
+            action Function(store_item, "potion4")
 
         imagebutton: # Potion 5 Sang de Seiryu
             pos (1604, 250)
             anchor (0.5, 0.5)
             auto "potion5_%s.png"
             focus_mask True
-            tooltip "Potion 5"
-            action [SetVariable("current_display", "potion5"), Function(store_item, "potion5")]
+            hovered SetVariable("current_tooltip_image", "potion5tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
+            action Function(store_item, "potion5")
 
         imagebutton: # Ingredient 1 Ratafia
             pos (1008, 371)
             anchor (0.5, 0.5)
             auto "ing1_%s.png"
             focus_mask True
-            tooltip "Ing 1"
+            hovered SetVariable("current_tooltip_image", "ing1tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
             action [SetVariable("current_display", "ing1"), Function(store_item, "ing1")]
 
         imagebutton: # Ingredient 2 Mel de fada
@@ -559,7 +618,8 @@ screen potioncrafting():
             anchor (0.5, 0.5)
             auto "ing2_%s.png"
             focus_mask True
-            tooltip "Ing 2"
+            hovered SetVariable("current_tooltip_image", "ing2tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
             action [SetVariable("current_display", "ing2"), Function(store_item, "ing2")]
 
         imagebutton: # Ingredient 3 Llàgrimes de sirena 
@@ -567,7 +627,8 @@ screen potioncrafting():
             anchor (0.5, 0.5)
             auto "ing3_%s.png"
             focus_mask True
-            tooltip "Ing 3"
+            hovered SetVariable("current_tooltip_image", "ing3tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
             action [SetVariable("current_display", "ing3"), Function(store_item, "ing3")]
 
         imagebutton: # Ingredient 4 Essència de Gorgona
@@ -575,7 +636,8 @@ screen potioncrafting():
             anchor (0.5, 0.5)
             auto "ing4_%s.png"
             focus_mask True
-            tooltip "Ing 4"
+            hovered SetVariable("current_tooltip_image", "ing4tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
             action [SetVariable("current_display", "ing4"), Function(store_item, "ing4")]
 
         imagebutton: # Ingredient 5 Ulls de granota
@@ -583,7 +645,8 @@ screen potioncrafting():
             anchor (0.5, 0.5)
             auto "ing5_%s.png"
             focus_mask True
-            tooltip "Ing 5"
+            hovered SetVariable("current_tooltip_image", "ing5tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
             action [SetVariable("current_display", "ing5"), Function(store_item, "ing5")]
 
         imagebutton: # Ingredient 6 Nectar de les Serps Màgiques
@@ -591,7 +654,8 @@ screen potioncrafting():
             anchor (0.5, 0.5)
             auto "ing6_%s.png"
             focus_mask True
-            tooltip "Ing 6"
+            hovered SetVariable("current_tooltip_image", "ing6tooltip")
+            unhovered SetVariable("current_tooltip_image", None)
             action [SetVariable("current_display", "ing6"), Function(store_item, "ing6")]
 
         if potion_slot and second_slot and ingredient_slot and final_drink is None:
@@ -602,10 +666,15 @@ screen potioncrafting():
                 action [Function(get_final_drink), Show("drink_result")]
 
 
-
+screen tooltip_display():
+    zorder 100
+    if current_tooltip_image:
+        # Display the tooltip image at specific coordinates
+        add current_tooltip_image xpos 1579 ypos 90 anchor (0.5, 0.5)
 
 
 screen potion_display():
+    zorder -10
     if potion_slot:
         add globals()[potion_slot] pos (1048, 596) anchor (0.5, 0.5)
 
@@ -622,6 +691,7 @@ screen drink_overlay():
         add "drink_bg.png" pos (1319, 539) anchor (0.5, 0.5)
 
 
+
 screen drink_result():
     modal True
     if final_drink:
@@ -629,10 +699,19 @@ screen drink_result():
 
         # Add the repetir button
         imagebutton:
-            pos (1264, 985)  
+            pos (1495, 991)  
             anchor (0.5, 0.5)
             auto "repetir_%s.png"  
             action [Function(reset_slots), Hide("drink_result")]
+        
+        # Add the serve button
+        imagebutton:
+            pos (1064, 985)
+            anchor (0.5, 0.5)
+            auto "servir_%s.png"  # Button image for serving the drink
+            action [Function(serve_potion), Hide("drink_result")]
+
+    
 
 
 screen say(who, what):
