@@ -12,6 +12,7 @@ define j = Character("Jordi", color="000000")
 define b = Character("Blanca", color="000000")
 
 $ current_tooltip_image = None  # Default value when the game starts
+$ current_character = None # Or another character's name depending on the context
 
 
 image titus = "images/titus.png"
@@ -22,6 +23,18 @@ image laia = "images/laia.png"
 image alma = "images/alma.png"
 image jordi = "images/jordi.png"
 image blanca = "images/blanca.png"
+
+define desired_drinks = {
+    'titus': drink3,    # Example: Titus wants drink3
+    'el·lòdia': drink1, # El·lòdia wants drink1
+    'segre': drink5,    # Segre wants drink5
+    'peris': drink2,    # Peris wants drink2
+    'laia': drink4,     # Laia wants drink4
+    'alma': drink6,     # Alma wants drink6
+    'jordi': drink7,    # Jordi wants drink7
+    'blanca': drink8    # Blanca wants drink8
+}
+
 
 # El juego comienza aquí.
 
@@ -112,55 +125,92 @@ label show_dialogue(character):
     "El personatge ha acabat de parlar. Pots preparar la beguda."
     # Show the craft potion button
     show screen craft_button  # Show the craft button screen
+
+label start_crafting:
+    # Hide the dialogue box
+    window hide
+    show screen craft_button  # Show the craft button screen
+    # Show the potion crafting screen
+    call screen drink_result
     
+    # After the drink result, call serve_potion
+    call serve_potion  # Call the serve_potion label to serve the drink
+    hide screen potioncrafting
+    return
+
+default potion_correct = False
+
+# Function to reset potion crafting slots (if needed)
+init python:
+    potion_slot = None
+    second_slot = None
+    ingredient_slot = None
+    final_drink = None  # Clear final drink
+    show_new_image = False  # Reset the display state
 
 
-label serve_potion:
+    def serve_potion():
+        # Determine if the crafted potion is correct
+        global potion_correct
+        potion_correct = (final_drink == "desired_potion")  # Replace with actual condition
+
+
+
+label serve_response:
     # Pause the dialogue if it is active
-    $ renpy.pause()
+    "The drink has been served to the customer."
+    # Retrieve the desired drink for the current character from the desired_drinks dictionary   $ desired_drink = desired_drinks[current_character]  
+    if current_character in desired_drinks:
+        # Retrieve the desired drink for the current character from the desired_drinks dictionary
+        $ desired_drink = desired_drinks[current_character]  
+    # Check if the served potion matches the character's desired drink
+        if potion_slot == desired_drink:  
+            # Dialogue based on each character's positive response
+            if current_character == "titus":
+                t "Gràcies! Això és el que volia."
+            elif current_character == "elodia":
+                e "Moltes gràcies!"
+            elif current_character == "segre":
+                s "Perfecte, això em va genial!"
+            elif current_character == "peris":
+                p "Genial! Estic refrescat!"
+            elif current_character == "laia":
+                l "M'encanta! Ets increïble."
+            elif current_character == "alma":
+                a "Molt bé, gràcies!"
+            elif current_character == "jordi":
+                j "Exactament el que necessitava!"
+            elif current_character == "blanca":
+                b "Fantàstic, gràcies!"
+        else:
+            # Dialogue based on each character's negative response if the potion was incorrect
+            if current_character == "titus":
+                t "Això no és el que volia, adéu."
+            elif current_character == "elodia":
+                e "Ho sento, però no és el que volia. Adéu."
+            elif current_character == "segre":
+                s "No és el que buscava. Adéu!"
+            elif current_character == "peris":
+                p "No era el que volia, així que adéu."
+            elif current_character == "laia":
+                l "No m'agrada. Adéu!"
+            elif current_character == "alma":
+                a "No és el que volia. Fins aviat!"
+            elif current_character == "jordi":
+                j "No era el que necessitava, així que adéu."
+            elif current_character == "blanca":
+                b "No és el que volia. Fins aviat!"
+        $ reset_slots()  # Reset the slots after serving
 
-    # Get the desired drink for the current character
-    $ desired_drink = desired_drinks[current_character]  # Look up the character's desired drink
+    # Reset the dialogue state after serving the potion
+        $ dialogue_paused = False  # Resume the dialogue
 
-    # Check if the served potion is the correct one
-    if potion_slot == desired_drink:  # Compare with the potion that the player crafted
-        if current_character == "titus":
-            t "Gràcies! Això és el que volia."
-        elif current_character == "elodia":
-            e "Moltes gràcies!"
-        elif current_character == "segre":
-            s "Perfecte, això em va genial!"
-        elif current_character == "peris":
-            p "Genial! Estic refrescat!"
-        elif current_character == "laia":
-            l "M'encanta! Ets increïble."
-        elif current_character == "alma":
-            a "Molt bé, gràcies!"
-        elif current_character == "jordi":
-            j "Exactament el que necessitava!"
-        elif current_character == "blanca":
-            b "Fantàstic, gràcies!"
-    else:
-        # If incorrect
-        if current_character == "titus":
-            t "Això no és el que volia, adéu."
-        elif current_character == "elodia":
-            e "Ho sento, però no és el que volia. Adéu."
-        elif current_character == "segre":
-            s "No és el que buscava. Adéu!"
-        elif current_character == "peris":
-            p "No era el que volia, així que adéu."
-        elif current_character == "laia":
-            l "No m'agrada. Adéu!"
-        elif current_character == "alma":
-            a "No és el que volia. Fins aviat!"
-        elif current_character == "jordi":
-            j "No era el que necessitava, així que adéu."
-        elif current_character == "blanca":
-            b "No és el que volia. Fins aviat!"
+    # Call a function to show a new character
+        call show_next_character  # Implement this function to show the next character
 
-    # Reset slots or other logic after serving the potion
-    $ reset_slots()  # Reset the slots after serving
+    return
+
+
 
     # Hide the current character
     if current_character == "titus":

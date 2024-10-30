@@ -427,31 +427,35 @@ define drink7 = "drink_7.png"
 define drink8 = "drink_8.png"
 define nodrink = "nodrink.png"
 
-define desired_drinks = {
-    'titus': drink3,    # Example: Titus wants drink3
-    'el·lòdia': drink1, # El·lòdia wants drink1
-    'segre': drink5,    # Segre wants drink5
-    'peris': drink2,    # Peris wants drink2
-    'laia': drink4,     # Laia wants drink4
-    'alma': drink6,     # Alma wants drink6
-    'jordi': drink7,    # Jordi wants drink7
-    'blanca': drink8    # Blanca wants drink8
-}
 
 
 default final_drink = None
 
 default potioncrafting_visible = False
+init python:
+    def reset_slots():
+        global potion_slot, second_slot, ingredient_slot, show_new_image, final_drink
+        potion_slot = None
+        second_slot = None
+        ingredient_slot = None
+        final_drink = None  # Clear final drink
+        show_new_image = False  # Reset the display state
+        # Hide drink overlay explicitly
+        renpy.hide("drink_overlay")  # Ensure the drink overlay is hidden
 
-default current_display = None
-default potion_slot = None  # For the first position (potions only)
-default second_slot = None  # For the second position (potions or ingredients)
-default ingredient_slot = None  # For the third position (ingredients only)
-default show_new_image = False
 
 default selected_potion = None
 
 init python:
+    def reset_slots():
+        global potion_slot, second_slot, ingredient_slot, show_new_image, final_drink
+        potion_slot = None
+        second_slot = None
+        ingredient_slot = None
+        final_drink = None  # Clear final drink
+        show_new_image = False  # Reset the display state
+        # Hide drink overlay explicitly
+        renpy.hide("drink_overlay")  # Ensure the drink overlay is hidden
     def store_item(item):
         global potion_slot, second_slot, ingredient_slot
 
@@ -666,6 +670,7 @@ screen potioncrafting():
                 action [Function(get_final_drink), Show("drink_result")]
 
 
+
 screen tooltip_display():
     zorder 100
     if current_tooltip_image:
@@ -693,23 +698,37 @@ screen drink_overlay():
 
 
 screen drink_result():
-    modal True
+    modal False
+
     if final_drink:
+        # Display the crafted drink at the specified position
         add final_drink pos (1319, 539) anchor (0.5, 0.5)
 
-        # Add the repetir button
+        # Add the "Repetir" button for retrying
         imagebutton:
             pos (1495, 991)  
             anchor (0.5, 0.5)
             auto "repetir_%s.png"  
-            action [Function(reset_slots), Hide("drink_result")]
-        
-        # Add the serve button
+            action [
+                Function(reset_slots),   # Reset all slots
+                Hide("drink_result"),     # Hide the drink result
+                Hide("drink_overlay"),    # Ensure the drink overlay is hidden
+                Show("potioncrafting")    # Show the potion crafting screen again
+    ]
+
+
+        # Add the "Serve" button to confirm and serve the drink
         imagebutton:
             pos (1064, 985)
             anchor (0.5, 0.5)
-            auto "servir_%s.png"  # Button image for serving the drink
-            action [Function(serve_potion), Hide("drink_result")]
+            auto "servir_%s.png"
+            action [
+                Function(serve_potion),        # Call the function to serve the potion
+                Hide("drink_result"),           # Hide the drink result screen
+                Jump("serve_response"),         # Jump to the serve_response label
+                SetVariable("potioncrafting_visible", False)  # Set potion crafting visibility to False
+            ]
+
 
     
 

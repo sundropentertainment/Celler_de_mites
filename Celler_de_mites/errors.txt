@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 662: The imagebutton statement is not a valid child of the imagebutton statement.
-    imagebutton:
-               ^
+File "game/script.rpy", line 160: expected an indented block
+    'titus': drink3,    
+     ^
 
 Ren'Py Version: Ren'Py 8.3.2.24090902
-Wed Oct 30 05:38:12 2024
+Wed Oct 30 06:46:28 2024
